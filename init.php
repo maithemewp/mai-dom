@@ -10,10 +10,12 @@
  * registered version's src/ directory and loads from there.
  *
  * Bootstrap protocol — FROZEN. Never change Mai_DOM_Bootstrap::register()'s
- * signature. Old plugins out in the wild call the old signature on whichever
- * bootstrap loaded first.
+ * signature. Old plugins out in the wild call the original signature on
+ * whichever bootstrap loaded first.
  *
  * @see https://github.com/maithemewp/mai-logger — the original pattern.
+ *
+ * @since 0.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,11 +26,15 @@ if ( ! class_exists( 'Mai_DOM_Bootstrap', false ) ) {
 	 *
 	 * First plugin to load defines this class. All subsequent plugins
 	 * call register() on this same class.
+	 *
+	 * @since 0.1.0
 	 */
 	class Mai_DOM_Bootstrap {
 
 		/**
 		 * Registered versions: [ '0.1.0' => '/abs/path/to/src', ... ].
+		 *
+		 * @since 0.1.0
 		 *
 		 * @var array<string,string>
 		 */
@@ -36,6 +42,8 @@ if ( ! class_exists( 'Mai_DOM_Bootstrap', false ) ) {
 
 		/**
 		 * Whether the autoloader has been registered yet.
+		 *
+		 * @since 0.1.0
 		 *
 		 * @var bool
 		 */
@@ -45,6 +53,8 @@ if ( ! class_exists( 'Mai_DOM_Bootstrap', false ) ) {
 		 * Register a bundled Mai\DOM version + path to its src/ directory.
 		 *
 		 * Signature is frozen; do not change.
+		 *
+		 * @since 0.1.0
 		 *
 		 * @param string $version  Semver version string of the bundled library.
 		 * @param string $src_path Absolute path to the src/ directory.

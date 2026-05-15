@@ -19,15 +19,23 @@ defined( 'ABSPATH' ) || exit;
  * Iterable wrapper for a list of Element objects.
  *
  * Returned by Document::queryAll() and Element::queryAll() / children().
+ *
+ * @since 0.1.0
  */
 class NodeList implements IteratorAggregate, Countable {
 
 	/**
+	 * @since 0.1.0
+	 *
 	 * @var Element[]
 	 */
 	private array $elements;
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 0.1.0
+	 *
 	 * @param Element[] $elements
 	 */
 	public function __construct( array $elements ) {
@@ -36,6 +44,8 @@ class NodeList implements IteratorAggregate, Countable {
 
 	/**
 	 * Run a callback for each element. Chainable.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param callable $callback fn(Element $element, int $index)
 	 *
@@ -51,6 +61,8 @@ class NodeList implements IteratorAggregate, Countable {
 
 	/**
 	 * Map each element through a callback, returning an array.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param callable $callback fn(Element $element, int $index): mixed
 	 *
@@ -68,6 +80,8 @@ class NodeList implements IteratorAggregate, Countable {
 
 	/**
 	 * Filter to a new NodeList of elements where the callback returns truthy.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param callable $callback fn(Element $element, int $index): bool
 	 *
@@ -88,6 +102,8 @@ class NodeList implements IteratorAggregate, Countable {
 	/**
 	 * Get the first Element, or null if empty.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return Element|null
 	 */
 	public function first(): ?Element {
@@ -96,6 +112,8 @@ class NodeList implements IteratorAggregate, Countable {
 
 	/**
 	 * Get the last Element, or null if empty.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return Element|null
 	 */
@@ -106,6 +124,8 @@ class NodeList implements IteratorAggregate, Countable {
 	/**
 	 * Return the underlying array of Element objects.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return Element[]
 	 */
 	public function toArray(): array {
@@ -113,6 +133,8 @@ class NodeList implements IteratorAggregate, Countable {
 	}
 
 	/**
+	 * @since 0.1.0
+	 *
 	 * @return Iterator<int,Element>
 	 */
 	public function getIterator(): Iterator {
@@ -120,6 +142,8 @@ class NodeList implements IteratorAggregate, Countable {
 	}
 
 	/**
+	 * @since 0.1.0
+	 *
 	 * @return int
 	 */
 	public function count(): int {

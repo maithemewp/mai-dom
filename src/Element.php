@@ -15,11 +15,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Single-element wrapper with chainable, jQuery-flavored helpers.
+ *
+ * @since 0.1.0
  */
 class Element {
 
 	/**
 	 * The underlying DOM element.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @var HTMLElement|DomElement
 	 */
@@ -27,6 +31,8 @@ class Element {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param HTMLElement|DomElement $node
 	 */
@@ -37,6 +43,8 @@ class Element {
 	/**
 	 * Get the underlying DOM node (escape hatch).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return HTMLElement|DomElement
 	 */
 	public function unwrap(): HTMLElement|DomElement {
@@ -45,6 +53,8 @@ class Element {
 
 	/**
 	 * Find the first descendant matching a CSS selector.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $selector
 	 *
@@ -58,6 +68,8 @@ class Element {
 
 	/**
 	 * Find all descendants matching a CSS selector.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $selector
 	 *
@@ -77,6 +89,8 @@ class Element {
 	/**
 	 * Get the element's tag name (lowercase).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return string
 	 */
 	public function tag(): string {
@@ -85,6 +99,8 @@ class Element {
 
 	/**
 	 * Get or set an attribute.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string      $name  Attribute name.
 	 * @param string|null $value If provided, sets the attribute. Otherwise gets it.
@@ -104,6 +120,8 @@ class Element {
 	/**
 	 * Remove an attribute.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $name
 	 *
 	 * @return self
@@ -117,6 +135,8 @@ class Element {
 	/**
 	 * Check whether the element has a class.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $class
 	 *
 	 * @return bool
@@ -127,6 +147,8 @@ class Element {
 
 	/**
 	 * Add one or more classes.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string ...$classes
 	 *
@@ -143,6 +165,8 @@ class Element {
 	/**
 	 * Remove one or more classes.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string ...$classes
 	 *
 	 * @return self
@@ -158,6 +182,8 @@ class Element {
 	/**
 	 * Toggle a class.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $class
 	 *
 	 * @return self
@@ -170,6 +196,8 @@ class Element {
 
 	/**
 	 * Get or set innerHTML.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string|null $html If provided, sets innerHTML. Otherwise gets it.
 	 *
@@ -188,6 +216,8 @@ class Element {
 	/**
 	 * Get or set textContent.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string|null $text
 	 *
 	 * @return string|self
@@ -205,6 +235,8 @@ class Element {
 	/**
 	 * Get the outerHTML (the element itself plus its descendants).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return string
 	 */
 	public function outerHtml(): string {
@@ -213,6 +245,8 @@ class Element {
 
 	/**
 	 * Append HTML inside this element (as the last child).
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $html
 	 *
@@ -227,6 +261,8 @@ class Element {
 	/**
 	 * Prepend HTML inside this element (as the first child).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $html
 	 *
 	 * @return self
@@ -240,6 +276,8 @@ class Element {
 	/**
 	 * Insert HTML immediately before this element (as a previous sibling).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $html
 	 *
 	 * @return self
@@ -252,6 +290,8 @@ class Element {
 
 	/**
 	 * Insert HTML immediately after this element (as a next sibling).
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $html
 	 *
@@ -269,6 +309,8 @@ class Element {
 	 * After calling this the element is detached from the DOM; further
 	 * mutations on this wrapper have no visible effect.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @param string $html
 	 *
 	 * @return void
@@ -280,6 +322,8 @@ class Element {
 
 	/**
 	 * Replace this element with a plain text string (no HTML parsing).
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $text
 	 *
@@ -294,6 +338,8 @@ class Element {
 	 *
 	 * The wrapper HTML's outermost element becomes the new parent; if it
 	 * already has children they are preserved and this element is appended.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $html Wrapper HTML, e.g. '<div class="card"></div>'.
 	 *
@@ -321,6 +367,8 @@ class Element {
 	/**
 	 * Remove this element from the DOM.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return void
 	 */
 	public function remove(): void {
@@ -329,6 +377,8 @@ class Element {
 
 	/**
 	 * Get the parent element (or null at the root).
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return self|null
 	 */
@@ -345,6 +395,8 @@ class Element {
 	/**
 	 * Get the element's direct element children (excludes text nodes).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return NodeList
 	 */
 	public function children(): NodeList {
@@ -359,6 +411,8 @@ class Element {
 
 	/**
 	 * Echoing an Element returns its outerHTML.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return string
 	 */

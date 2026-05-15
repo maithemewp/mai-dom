@@ -19,11 +19,15 @@ defined( 'ABSPATH' ) || exit;
  *
  * Provides ergonomic, chainable methods for parsing and manipulating HTML.
  * Wraps PHP 8.4's Dom\HTMLDocument under the hood.
+ *
+ * @since 0.1.0
  */
 class Document {
 
 	/**
 	 * The underlying HTMLDocument.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @var HTMLDocument
 	 */
@@ -31,6 +35,8 @@ class Document {
 
 	/**
 	 * Constructor — use Document::from() in most cases.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param HTMLDocument $dom
 	 */
@@ -45,6 +51,8 @@ class Document {
 	 * (the common case for filters like the_content and render_block) parse
 	 * correctly. toHtml() returns just the body's innerHTML, so the shell
 	 * is invisible to callers.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $html
 	 *
@@ -62,6 +70,8 @@ class Document {
 	/**
 	 * Get the underlying HTMLDocument (escape hatch).
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return HTMLDocument
 	 */
 	public function unwrap(): HTMLDocument {
@@ -70,6 +80,8 @@ class Document {
 
 	/**
 	 * Find the first element matching a CSS selector.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $selector
 	 *
@@ -83,6 +95,8 @@ class Document {
 
 	/**
 	 * Find all elements matching a CSS selector.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param string $selector
 	 *
@@ -102,6 +116,8 @@ class Document {
 	/**
 	 * Get the body innerHTML.
 	 *
+	 * @since 0.1.0
+	 *
 	 * @return string
 	 */
 	public function toHtml(): string {
@@ -110,6 +126,8 @@ class Document {
 
 	/**
 	 * Collapse repeated whitespace in text nodes in place.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @return self
 	 */
@@ -125,6 +143,8 @@ class Document {
 
 	/**
 	 * Recursively walk every node under (and including) $node.
+	 *
+	 * @since 0.1.0
 	 *
 	 * @param Node     $node
 	 * @param callable $callback Receives each Node.
