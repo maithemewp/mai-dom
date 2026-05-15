@@ -1,0 +1,88 @@
+<?php
+/**
+ * Mai DOM — bootstrap.
+ *
+ * Loaded automatically by Composer (via "autoload": { "files": [...] })
+ * when each plugin's vendor/autoload.php is required.
+ *
+ * Registers this plugin's bundled Mai\DOM version into a shared registry.
+ * On first request for any Mai\DOM\* class, the autoloader picks the highest
+ * registered version's src/ directory and loads from there.
+ *
+ * Bootstrap protocol — FROZEN. Never change Mai_DOM_Bootstrap::register()'s
+ * signature. Old plugins out in the wild call the old signature on whichever
+ * bootstrap loaded first.
+ *
+ * @see https://github.com/maithemewp/mai-logger — the original pattern.
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! class_exists( 'Mai_DOM_Bootstrap', false ) ) {
+	/**
+	 * Tiny registry for Mai\DOM versions across plugins.
+	 *
+	 * First plugin to load defines this class. All subsequent plugins
+	 * call register() on this same class.
+	 */
+	class Mai_DOM_Bootstrap {
+
+		/**
+		 * Registered versions: [ '0.1.0' => '/abs/path/to/src', ... ].
+		 *
+		 * @var array<string,string>
+		 */
+		private static array $versions = [];
+
+		/**
+		 * Whether the autoloader has been registered yet.
+		 *
+		 * @var bool
+		 */
+		private static bool $autoloader_registered = false;
+
+		/**
+		 * Register a bundled Mai\DOM version + path to its src/ directory.
+		 *
+		 * Signature is frozen; do not change.
+		 *
+		 * @param string $version  Semver version string of the bundled library.
+		 * @param string $src_path Absolute path to the src/ directory.
+		 */
+		public static function register( string $version, string $src_path ): void {
+			self::$versions[ $version ] = rtrim( $src_path, '/' );
+
+			if ( self::$autoloader_registered ) {
+				return;
+			}
+
+			self::$autoloader_registered = true;
+
+			spl_autoload_register( static function ( string $class ): void {
+				// Only handle Mai\DOM\* classes.
+				if ( ! str_starts_with( $class, 'Mai\\DOM\\' ) ) {
+					return;
+				}
+
+				if ( empty( self::$versions ) ) {
+					return;
+				}
+
+				// Pick the highest registered version's src/ dir.
+				uksort( self::$versions, 'version_compare' );
+				$src = end( self::$versions );
+
+				// PSR-4 style: Mai\DOM\Element → $src/Element.php
+				$relative = substr( $class, strlen( 'Mai\\DOM\\' ) );
+				$file     = $src . '/' . str_replace( '\\', '/', $relative ) . '.php';
+
+				if ( is_readable( $file ) ) {
+					require $file;
+				}
+			} );
+		}
+	}
+}
+
+// Register THIS plugin's bundled version. Bump the string when releasing.
+Mai_DOM_Bootstrap::register( '0.1.0', __DIR__ . '/src' );
