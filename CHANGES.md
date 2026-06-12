@@ -4,7 +4,10 @@ All notable changes to `mai-dom` are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: [Semantic Versioning](https://semver.org/).
 
-## [0.1.1] — 2026-06-12
+## [1.0.0] — 2026-06-12
+
+First stable release: the HTML-insertion API is finalized (explicit `*Html`
+naming) and PHP 8.4-correct. Below changes are relative to the 0.1.0 preview.
 
 ### Fixed
 

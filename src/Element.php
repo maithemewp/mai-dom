@@ -333,7 +333,7 @@ class Element {
 	 * here exist on 8.4 and 8.5 alike. Children are snapshotted before the
 	 * splice because inserting them moves them out of the temporary node.
 	 *
-	 * @since 0.1.1
+	 * @since 1.0.0
 	 *
 	 * @param string $html
 	 *
