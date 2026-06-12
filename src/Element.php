@@ -240,7 +240,7 @@ class Element {
 	 * @return string
 	 */
 	public function outerHtml(): string {
-		return $this->node->ownerDocument->saveHTML( $this->node );
+		return $this->node->ownerDocument->saveHtml( $this->node );
 	}
 
 	/**

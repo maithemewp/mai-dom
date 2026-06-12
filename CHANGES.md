@@ -10,6 +10,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: 
 
 - **PHP 8.4 compatibility for HTML insertion.** `appendHtml`/`prependHtml`/`beforeHtml`/`afterHtml`/`replaceWithHtml` no longer call `Dom\Element::insertAdjacentHTML()`, which is PHP 8.5+ only ([php-src #16614](https://github.com/php/php-src/pull/16614)) and broke the package's `>=8.4` floor. They now parse via the `innerHTML` setter (the same mechanism `wrapWith()` uses) and splice with the native WHATWG node methods (`append`/`prepend`/`before`/`after`/`replaceWith`), which exist on 8.4 and 8.5 alike.
 
+- `outerHtml()` now calls `Dom\HTMLDocument::saveHtml()` with the canonical lowercase-`html` casing (was `saveHTML`, the legacy `DOMDocument` spelling). Behavior is identical at runtime (PHP method names are case-insensitive); this matches the stub so static analysis stops flagging it.
+
 ### Changed
 
 - Renamed HTML-insertion methods so every HTML-parsing insert carries the `Html` suffix (consistency): `append()` → `appendHtml()`, `prepend()` → `prependHtml()`, `insertBeforeHtml()` → `beforeHtml()`, `insertAfterHtml()` → `afterHtml()`. `replaceWithHtml()` and `replaceWithText()` are unchanged.
