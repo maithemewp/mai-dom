@@ -1,6 +1,6 @@
 # Mai DOM
 
-Ergonomic, chainable wrapper around PHP 8.4's [`Dom\HTMLDocument`](https://wiki.php.net/rfc/domdocument_html5_parser). Closes the gap between PHP's still-clunky DOM ergonomics and the jQuery-style developer experience.
+Ergonomic, chainable wrapper around PHP 8.4's [`Dom\HTMLDocument`](https://wiki.php.net/rfc/domdocument_html5_parser). Closes the gap between PHP's still-clunky native DOM ergonomics and a modern, fluent element-manipulation API.
 
 Versioned and drop-in safe — multiple plugins on the same WordPress install can each bundle their own copy of `mai-dom`; the highest registered version wins at runtime via a shared bootstrap registry (same pattern as [maithemewp/mai-logger](https://github.com/maithemewp/mai-logger)).
 
@@ -93,12 +93,12 @@ echo $dom->toHtml();
 | `text()` | `string` | Get textContent. |
 | `text(string $text)` | `Element` | Set textContent. |
 | `outerHtml()` | `string` | Serialize this element including itself. |
-| `append(string $html)` | `Element` | Insert at end of children. |
-| `prepend(string $html)` | `Element` | Insert at start of children. |
-| `insertBeforeHtml(string $html)` | `Element` | Insert as previous sibling. |
-| `insertAfterHtml(string $html)` | `Element` | Insert as next sibling. |
+| `appendHtml(string $html)` | `Element` | Parse HTML, insert at end of children. |
+| `prependHtml(string $html)` | `Element` | Parse HTML, insert at start of children. |
+| `beforeHtml(string $html)` | `Element` | Parse HTML, insert as previous sibling. |
+| `afterHtml(string $html)` | `Element` | Parse HTML, insert as next sibling. |
 | `replaceWithHtml(string $html)` | `void` | Replace with parsed HTML, detach this node. |
-| `replaceWithText(string $text)` | `void` | Replace with literal text. |
+| `replaceWithText(string $text)` | `void` | Replace with literal (escaped) text. |
 | `wrapWith(string $html)` | `Element` | Wrap this element inside new HTML container. |
 | `remove()` | `void` | Detach from DOM. |
 | `parent()` | `Element\|null` | |
@@ -164,8 +164,8 @@ $dom->query( '.profanity' )?->replaceWithText( '****' );
 
 ```php
 $dom->query( 'h2.section' )
-    ?->insertBeforeHtml( '<hr class="section-rule">' )
-    ->insertAfterHtml( '<p class="section-meta">Last updated today.</p>' );
+    ?->beforeHtml( '<hr class="section-rule">' )
+    ->afterHtml( '<p class="section-meta">Last updated today.</p>' );
 
 $dom->query( 'figure.hero' )?->wrapWith( '<div class="hero-frame"></div>' );
 ```

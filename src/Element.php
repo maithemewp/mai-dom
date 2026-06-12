@@ -14,7 +14,7 @@ use Dom\HTMLElement;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Single-element wrapper with chainable, jQuery-flavored helpers.
+ * Single-element wrapper with chainable element-manipulation helpers.
  *
  * @since 0.1.0
  */
@@ -252,8 +252,8 @@ class Element {
 	 *
 	 * @return self
 	 */
-	public function append( string $html ): self {
-		$this->node->insertAdjacentHTML( 'beforeend', $html );
+	public function appendHtml( string $html ): self {
+		$this->node->append( ...$this->parseHtml( $html ) );
 
 		return $this;
 	}
@@ -267,8 +267,8 @@ class Element {
 	 *
 	 * @return self
 	 */
-	public function prepend( string $html ): self {
-		$this->node->insertAdjacentHTML( 'afterbegin', $html );
+	public function prependHtml( string $html ): self {
+		$this->node->prepend( ...$this->parseHtml( $html ) );
 
 		return $this;
 	}
@@ -282,8 +282,8 @@ class Element {
 	 *
 	 * @return self
 	 */
-	public function insertBeforeHtml( string $html ): self {
-		$this->node->insertAdjacentHTML( 'beforebegin', $html );
+	public function beforeHtml( string $html ): self {
+		$this->node->before( ...$this->parseHtml( $html ) );
 
 		return $this;
 	}
@@ -297,17 +297,18 @@ class Element {
 	 *
 	 * @return self
 	 */
-	public function insertAfterHtml( string $html ): self {
-		$this->node->insertAdjacentHTML( 'afterend', $html );
+	public function afterHtml( string $html ): self {
+		$this->node->after( ...$this->parseHtml( $html ) );
 
 		return $this;
 	}
 
 	/**
-	 * Replace this element with an HTML string.
+	 * Replace this element with an HTML string (parsed as markup).
 	 *
 	 * After calling this the element is detached from the DOM; further
-	 * mutations on this wrapper have no visible effect.
+	 * mutations on this wrapper have no visible effect. For a literal
+	 * (escaped) string use replaceWithText().
 	 *
 	 * @since 0.1.0
 	 *
@@ -316,8 +317,39 @@ class Element {
 	 * @return void
 	 */
 	public function replaceWithHtml( string $html ): void {
-		$this->node->insertAdjacentHTML( 'beforebegin', $html );
-		$this->node->remove();
+		$this->node->replaceWith( ...$this->parseHtml( $html ) );
+	}
+
+	/**
+	 * Parse an HTML fragment into nodes owned by this element's document.
+	 *
+	 * Building block for appendHtml/prependHtml/beforeHtml/afterHtml/
+	 * replaceWithHtml. We parse
+	 * via the innerHTML setter (the same mechanism wrapWith() uses) and let
+	 * the native WHATWG node methods (append/prepend/before/after/replaceWith
+	 * on Dom\Element) splice the result in. This deliberately avoids
+	 * Dom\Element::insertAdjacentHTML(), which is PHP 8.5+ only (php-src
+	 * #16614) and would break this package's >=8.4 floor; the methods used
+	 * here exist on 8.4 and 8.5 alike. Children are snapshotted before the
+	 * splice because inserting them moves them out of the temporary node.
+	 *
+	 * @since 0.1.1
+	 *
+	 * @param string $html
+	 *
+	 * @return list<\Dom\Node>
+	 */
+	private function parseHtml( string $html ): array {
+		$temp            = $this->node->ownerDocument->createElement( 'div' );
+		$temp->innerHTML = $html;
+
+		$nodes = [];
+
+		foreach ( $temp->childNodes as $child ) {
+			$nodes[] = $child;
+		}
+
+		return $nodes;
 	}
 
 	/**
