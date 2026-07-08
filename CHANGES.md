@@ -4,6 +4,12 @@ All notable changes to `mai-dom` are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] — 2026-07-08
+
+### Changed
+
+- Added a `.gitattributes` with `export-ignore` so dev-only paths are stripped from the Composer dist archive, keeping a bundled copy of this package out of consumers' production trees. No runtime change.
+
 ## [1.0.0] — 2026-06-12
 
 First stable release: the HTML-insertion API is finalized (explicit `*Html`
