@@ -13,7 +13,6 @@ use Countable;
 use IteratorAggregate;
 use Iterator;
 
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Iterable wrapper for a list of Element objects.

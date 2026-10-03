@@ -9,7 +9,6 @@ Safe to bundle in several plugins on one WordPress site. Each plugin can ship it
 ## Requirements
 
 - **PHP 8.4+** — `Dom\HTMLDocument` is a PHP 8.4 feature.
-- **WordPress.** Each class file exits when `ABSPATH` is not defined.
 - **[maithemewp/mai-package-loader](https://github.com/maithemewp/mai-package-loader)**, which Composer installs with it and which loads its classes.
 
 ---

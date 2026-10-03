@@ -11,7 +11,6 @@ namespace Mai\DOM;
 use Dom\Element as DomElement;
 use Dom\HTMLElement;
 
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Single-element wrapper with chainable element-manipulation helpers.

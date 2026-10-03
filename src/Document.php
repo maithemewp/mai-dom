@@ -12,7 +12,6 @@ use Dom\HTMLDocument;
 use Dom\Node;
 use Dom\Text;
 
-defined( 'ABSPATH' ) || exit;
 
 /**
  * HTML document wrapper.
