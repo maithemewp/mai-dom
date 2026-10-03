@@ -4,6 +4,16 @@ All notable changes to `mai-dom` are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - unreleased
+
+### Changed
+
+- **Loaded by [maithemewp/mai-package-loader](https://github.com/maithemewp/mai-package-loader)**, through a `mai-package.php` declaration, instead of this package's own bootstrap. `init.php` and `Mai_DOM_Bootstrap` are gone. Requires `maithemewp/mai-package-loader` `^0.1`.
+
+### Fixed
+
+- **The newest copy now loads.** The old bootstrap was meant to load the highest version bundled on a site, but Composer runs a package's `files` entry only once per request, so only the first plugin's copy ever registered, and its version string still said 0.1.0. Older copies keep working beside this one: the loader answers first.
+
 ## [1.0.1] — 2026-07-08
 
 ### Changed

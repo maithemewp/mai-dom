@@ -2,30 +2,34 @@
 
 Ergonomic, chainable wrapper around PHP 8.4's [`Dom\HTMLDocument`](https://wiki.php.net/rfc/domdocument_html5_parser). Closes the gap between PHP's still-clunky native DOM ergonomics and a modern, fluent element-manipulation API.
 
-Versioned and drop-in safe — multiple plugins on the same WordPress install can each bundle their own copy of `mai-dom`; the highest registered version wins at runtime via a shared bootstrap registry (same pattern as [maithemewp/mai-logger](https://github.com/maithemewp/mai-logger)).
+Safe to bundle in several plugins on one WordPress site. Each plugin can ship its own copy, and [maithemewp/mai-package-loader](https://github.com/maithemewp/mai-package-loader) loads the newest one, whichever plugin loads first.
 
 ---
 
 ## Requirements
 
 - **PHP 8.4+** — `Dom\HTMLDocument` is a PHP 8.4 feature.
-- **WordPress** — uses `ABSPATH` as a load guard; bootstrap autoload runs from Composer's `vendor/autoload.php`.
+- **[maithemewp/mai-package-loader](https://github.com/maithemewp/mai-package-loader)**, which Composer installs with it and which loads its classes.
 
 ---
 
 ## Installation
 
-Add to a plugin or theme's `composer.json`:
+Add both GitHub repositories to the plugin or theme's `composer.json`, and require the library. Composer only reads repository lists from the plugin itself, so the loader's repository is listed too.
 
 ```json
 {
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/maithemewp/mai-dom" },
+        { "type": "vcs", "url": "https://github.com/maithemewp/mai-package-loader" }
+    ],
     "require": {
-        "maithemewp/mai-dom": "^0.1"
+        "maithemewp/mai-dom": "^1.1"
     }
 }
 ```
 
-Then `composer install`. The bootstrap runs automatically when `vendor/autoload.php` is required.
+Then `composer install`, and require `vendor/autoload.php`. Use the classes from a hook, not while the plugin's own file is loading, so every plugin's copy is known first.
 
 ### Local development
 
@@ -364,28 +368,11 @@ $clean = $dom->toHtml();
 
 ---
 
-## Versioned coexistence (advanced)
+## Several plugins bundling it
 
-When more than one plugin on the same WP install bundles `mai-dom`, all versions register themselves with `Mai_DOM_Bootstrap`. On first request for any `Mai\DOM\*` class, the autoloader picks the highest registered version and resolves the class file from that version's `src/` directory.
+Every copy ships a `mai-package.php` declaring its version, and mai-package-loader loads the newest copy of the library on the site, whichever plugin loads first. Up to 1.0.1, copies used their own bootstrap, which in practice always loaded the first plugin's copy, because Composer runs a package's `files` entry only once per request.
 
-```
-Plugin A (vendor/maithemewp/mai-dom @ 0.1.0)
-Plugin B (vendor/maithemewp/mai-dom @ 0.2.0)
-                  │
-                  ▼
-       Both register on autoload
-                  │
-                  ▼
-       First Mai\DOM\Document request
-                  │
-                  ▼
-       Autoloader picks 0.2.0's src/
-                  │
-                  ▼
-       Both plugins use 0.2.0
-```
-
-**Bootstrap protocol is frozen.** Never change `Mai_DOM_Bootstrap::register()`'s signature — old bundled copies in the wild will call the original signature on whichever bootstrap loaded first.
+Those older copies still work alongside this one. The loader answers before their bootstrap does, so this copy wins wherever both are installed, unless an older plugin uses a `Mai\DOM` class while its own file is loading.
 
 ---
 
