@@ -9,6 +9,7 @@ Safe to bundle in several plugins on one WordPress site. Each plugin can ship it
 ## Requirements
 
 - **PHP 8.4+** — `Dom\HTMLDocument` is a PHP 8.4 feature.
+- **WordPress.** Each class file exits when `ABSPATH` is not defined.
 - **[maithemewp/mai-package-loader](https://github.com/maithemewp/mai-package-loader)**, which Composer installs with it and which loads its classes.
 
 ---
@@ -29,17 +30,21 @@ Add both GitHub repositories to the plugin or theme's `composer.json`, and requi
 }
 ```
 
-Then `composer install`, and require `vendor/autoload.php`. Use the classes from a hook, not while the plugin's own file is loading, so every plugin's copy is known first.
+Then `composer install`, and require `vendor/autoload.php`. The newest copy on the site loads from the first use, even while plugins are still loading.
 
 ### Local development
+
+List the loader's working copy too. Composer only reads repositories from the plugin itself, and only honours `@dev` on the plugin's own requirements, so both are listed:
 
 ```json
 {
     "repositories": [
-        { "type": "path", "url": "~/LocalPackages/mai-dom" }
+        { "type": "path", "url": "~/LocalPackages/mai-dom" },
+        { "type": "path", "url": "~/LocalPackages/mai-package-loader" }
     ],
     "require": {
-        "maithemewp/mai-dom": "*"
+        "maithemewp/mai-dom": "@dev",
+        "maithemewp/mai-package-loader": "@dev"
     }
 }
 ```
