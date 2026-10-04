@@ -4,7 +4,7 @@ All notable changes to `mai-dom` are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: [Semantic Versioning](https://semver.org/).
 
-## [1.1.1] - unreleased
+## [1.1.1] - 2026-10-04
 
 ### Fixed
 
