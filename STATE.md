@@ -1,27 +1,26 @@
 # State
-Updated: 2026-10-03 by Claude (Opus 5.5)
+Updated: 2026-10-04 by Claude (Opus 5.5)
 
 ## Now
 
-1.1.0 is released: tagged `v1.1.0` on `main`, and `main` and `develop` pushed. It loads through mai-package-loader from `mai-package.php`; `init.php` and `Mai_DOM_Bootstrap` are gone.
-
-Consumers on 1.1: balloon-juice-plugin, the balloon-juice and horizonwesthappenings themes (committed locally, not pushed). The mai-slots engine and mai-content-areas use it through a local path repository.
+1.1.1 is committed on `develop`, not pushed or tagged. It fixes `Element::children()`, which returned nothing on PHP 8.4 because it read a collection PHP only added in 8.5, and adds `tests/run.php`. 1.1.0 is released on `main`.
 
 ## Next
 
-Nothing open.
+1. Ask Mike: push `develop`, fast-forward `main`, tag `v1.1.1`.
+2. The mai-slots engine works around the bug in `Dom\Fragment::children()`; once it requires `^1.1.1` it can call `children()` again.
 
 ## Blocked / waiting on
 
-Nothing.
+Mike's yes for the push and tag.
 
 ## Verify
 
 ```sh
-php -r 'require "vendor/autoload.php"; var_dump( class_exists( "Mai\\DOM\\Document" ) );'
+php tests/run.php
 ```
 
-After `composer install`, expect `bool(true)`. The engine's `php ~/LocalPackages/mai-slots/tests/run.php` exercises it most.
+Expect `41 passed, 0 failed`, on PHP 8.4 and on the newest PHP. Herd's are in `~/Library/Application Support/Herd/bin/php84` and `php85`.
 
 ## Gotchas
 

@@ -4,6 +4,16 @@ All notable changes to `mai-dom` are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · Versioning: [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - unreleased
+
+### Fixed
+
+- **`Element::children()` returned nothing on PHP 8.4**, this package's minimum, with two warnings. It read a `children` collection that PHP only added in 8.5. It now walks the child elements one by one, which works on both.
+
+### Added
+
+- **`tests/run.php`**, which checks every public method with nothing installed and fails on any PHP warning. Run it on PHP 8.4 as well as the newest PHP.
+
 ## [1.1.0] - 2026-10-03
 
 ### Changed

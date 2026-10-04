@@ -380,6 +380,16 @@ Those older copies still work alongside this one. The loader answers before thei
 
 ---
 
+## Testing
+
+```sh
+php tests/run.php
+```
+
+No install step. It checks every public method and fails on any PHP warning. Run it on PHP 8.4, the minimum, as well as the newest PHP: some DOM features exist only on newer versions.
+
+---
+
 ## License
 
 GPL-2.0-or-later

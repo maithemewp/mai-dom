@@ -433,7 +433,9 @@ class Element {
 	public function children(): NodeList {
 		$elements = [];
 
-		foreach ( $this->node->children as $child ) {
+		// Walked one by one. The `children` collection only exists from PHP
+		// 8.5, so reading it on 8.4, this package's floor, found nothing.
+		for ( $child = $this->node->firstElementChild; null !== $child; $child = $child->nextElementSibling ) {
 			$elements[] = new self( $child );
 		}
 
